@@ -1,0 +1,55 @@
+-- Parte 1 CONCEDE - GRANT
+-- Cria um login aluno e dar permissões no banco e objetos
+
+SELECT USER FROM DUAL;
+-- Concedente acesso de atualização para Aluno
+GRANT UPDATE ON ALUNO.FUNCIONARIOS TO ALUNO;
+
+-- Concedente acesso de atualização para aluno com WITH ADMIN OPTION
+-- usuario ALUNO pode estender seus privilégios de sistema para outros usuários.
+
+GRANT CREATE SESSION, CREATE TABLE, CREATE VIEW TO ALUNO WITH ADMIN OPTION;
+
+-- Concedendo Acesso de INSERT, DELETE, para aluno em todos os objetos
+grant insert, delete on aluno.senso to aluno;
+
+-- Concedendo Acesso de criar view e procedure, para aluno em todos os objetos
+grant create procedure, create view to aluno;
+
+-- DICA PARA GERAR GRANTS PARA MUITOS OBJETOS
+select 'GRANT ALL ON ' || object_name || ' TO ALUNO;' AS RETORNO FROM user_objects;
+
+-- concedendo acesso de DELETE para aluno
+GRANT DELETE ON aluno.FUNCIONARIOS TO ALUNO;
+
+GRANT UPDATE (NOME, SETOR) ON ALUNO.FUNCIONARIOS TO ALUNO;
+
+GRANT ALL ON ALUNO.FUNCIONARIOS TO ALUNO;
+
+-- VERIFICAR PRIVILÉGIOS, VERIFICAR PELO SYSTEM
+
+SELECT * FROM DBA_SYS_PRIVS WHERE GRANTEE LIKE 'ALUNO';
+
+SELECT * FROM DBA_ROLE_PRIVS WHERE GRANTEE LIKE 'ALUNO';
+
+SELECT * FROM DBA_TAB_PRIVS WHERE GRANTEE LIKE 'ALUNO';
+
+SELECT * FROM USER_TAB_PRIVS;
+
+-- REVOKE
+
+SELECT * FROM DUAL;
+
+SELECT * FROM DBA_SYS_PRIVS WHERE GRANTEE LIKE 'ALUNO';
+
+REVOKE CREATE SESSION, CREATE VIEW, CREATE TABLE FROM ALUNO;
+
+GRANT CREATE VIEW, CREATE PROCEDURE, CREATE SESSION, CREATE TABLE TO ALUNO;
+
+select * from DBA_ROLE_PRIVS WHERE GRANTEE LIKE 'ALUNO';
+
+GRANT RESOURCE TO ALUNO;
+
+REVOKE RESOURCE FROM ALUNO;
+
+GRANT RESOURCE TO ALUNO;
